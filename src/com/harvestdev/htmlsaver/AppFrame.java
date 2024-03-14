@@ -3,10 +3,16 @@ package com.harvestdev.htmlsaver;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
-import java.io.File;
-import java.io.PrintWriter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public final class AppFrame extends JFrame {
+	private JMenuBar menuBar;
 	private JPanel panelTop;
 	private JLabel label;
 	private JTextField textField;
@@ -19,6 +25,16 @@ public final class AppFrame extends JFrame {
 	{
 		super("HTML Saver");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+		menuBar = new JMenuBar();
+		JMenu menuFile = new JMenu("File");
+		JMenu menuHelp = new JMenu("Help");
+		menuBar.add(menuFile);
+		menuBar.add(menuHelp);
+		JMenuItem menuitemSave = new JMenuItem("Save");
+		menuitemSave.addActionListener(e -> saveHtml());
+		menuFile.add(menuitemSave);
+		setJMenuBar(menuBar);
 
 		panelTop = new JPanel();
 		panelTop.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -35,20 +51,7 @@ public final class AppFrame extends JFrame {
 			}
 		});
 		buttonSave = new JButton("Save");
-		buttonSave.addActionListener(e -> {
-			JFileChooser fileChooser = new JFileChooser();
-
-			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-				File fileToSave = fileChooser.getSelectedFile();
-				try {
-					PrintWriter writer = new PrintWriter(fileToSave.getAbsolutePath(), "UTF-8");
-					writer.print(editorPane.getText());
-					writer.close();
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(this, ex.getMessage());
-				}
-			}
-		});
+		buttonSave.addActionListener(e -> saveHtml());
 
 		panelTop.add(label);
 		panelTop.add(textField);
@@ -80,6 +83,33 @@ public final class AppFrame extends JFrame {
 
 		setSize(600, 400);
 		setVisible(true);
+	}
+
+	private void saveHtml() {
+		JFileChooser fileChooser = new JFileChooser();
+
+		if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+			File fileToSave = fileChooser.getSelectedFile();
+			try {
+				BufferedReader in = new BufferedReader(
+						new InputStreamReader(editorPane.getPage().openStream(), StandardCharsets.UTF_8));
+
+				BufferedWriter writer = new BufferedWriter(
+						new OutputStreamWriter(Files.newOutputStream(
+								Paths.get(fileToSave.getAbsolutePath())), StandardCharsets.UTF_8));
+
+				String curLine = in.readLine();
+				while (curLine != null) {
+					writer.write(curLine);
+					curLine = in.readLine();
+				}
+
+				in.close();
+				writer.close();
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this, ex.getMessage());
+			}
+		}
 	}
 
 }
