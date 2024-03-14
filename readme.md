@@ -1,7 +1,8 @@
 # HTML Saver
 
 ## Description  
-Very simple program to download html by given url.  
+Simple program for download html from url.  
+Note: this is not a browser, html output might be different!  
 
 ## How it was developed?  
 Written in pure java 8.  
