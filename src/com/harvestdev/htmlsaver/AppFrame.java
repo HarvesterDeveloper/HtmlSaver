@@ -30,7 +30,10 @@ public final class AppFrame extends JFrame {
 		menuBar.add(menuHelp);
 		JMenuItem menuitemSave = new JMenuItem("Save");
 		menuitemSave.addActionListener(e -> saveHtml());
+		JMenuItem menuitemAbout = new JMenuItem("About");
+		menuitemAbout.addActionListener(e -> Application.openAboutWindow());
 		menuFile.add(menuitemSave);
+		menuHelp.add(menuitemAbout);
 		setJMenuBar(menuBar);
 
 		panelTop = new JPanel();
