@@ -3,6 +3,8 @@ package com.harvestdev.htmlsaver;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
+import java.io.File;
+import java.io.PrintWriter;
 
 public final class AppFrame extends JFrame {
 	private JPanel panelTop;
@@ -23,7 +25,7 @@ public final class AppFrame extends JFrame {
 		panelTop.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		label = new JLabel("Address:");
-		textField = new JTextField("https://hardev.info", 35);
+		textField = new JTextField("https://hardev.info", 30);
 		buttonVisit = new JButton("Visit");
 		buttonVisit.addActionListener(e -> {
 			try {
@@ -33,6 +35,20 @@ public final class AppFrame extends JFrame {
 			}
 		});
 		buttonSave = new JButton("Save");
+		buttonSave.addActionListener(e -> {
+			JFileChooser fileChooser = new JFileChooser();
+
+			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+				File fileToSave = fileChooser.getSelectedFile();
+				try {
+					PrintWriter writer = new PrintWriter(fileToSave.getAbsolutePath(), "UTF-8");
+					writer.print(editorPane.getText());
+					writer.close();
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(this, ex.getMessage());
+				}
+			}
+		});
 
 		panelTop.add(label);
 		panelTop.add(textField);
