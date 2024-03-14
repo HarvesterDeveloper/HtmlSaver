@@ -2,7 +2,6 @@ package com.harvestdev.htmlsaver;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import java.awt.*;
 
 public final class AppFrame extends JFrame {
