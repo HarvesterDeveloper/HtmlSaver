@@ -1,9 +1,10 @@
 package com.harvestdev.htmlsaver;
 
-// imports
-
 public final class Application {
+	private static AppFrame appFrame;
+
 	public static void main(String[] arguments) {
-		// 
+		appFrame = new AppFrame();
 	}
+
 }
