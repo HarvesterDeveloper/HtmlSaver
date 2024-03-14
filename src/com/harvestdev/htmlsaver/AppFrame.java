@@ -8,7 +8,8 @@ public final class AppFrame extends JFrame {
 	private JPanel panelTop;
 	private JLabel label;
 	private JTextField textField;
-	private JButton button;
+	private JButton buttonVisit;
+	private JButton buttonSave;
 	private JEditorPane editorPane;
 	private JScrollPane scrollPane;
 
@@ -23,11 +24,13 @@ public final class AppFrame extends JFrame {
 
 		label = new JLabel("Address:");
 		textField = new JTextField("https://hardev.info", 35);
-		button = new JButton("Save");
+		buttonVisit = new JButton("Visit");
+		buttonSave = new JButton("Save");
 
 		panelTop.add(label);
 		panelTop.add(textField);
-		panelTop.add(button);
+		panelTop.add(buttonVisit);
+		panelTop.add(buttonSave);
 
 		try {
 			editorPane = new JEditorPane(textField.getText());
