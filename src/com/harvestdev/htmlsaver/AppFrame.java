@@ -25,6 +25,13 @@ public final class AppFrame extends JFrame {
 		label = new JLabel("Address:");
 		textField = new JTextField("https://hardev.info", 35);
 		buttonVisit = new JButton("Visit");
+		buttonVisit.addActionListener(e -> {
+			try {
+				editorPane.setPage(textField.getText());
+			} catch (Exception exc) {
+				JOptionPane.showMessageDialog(AppFrame.this, Consts.ADDRESS_UNAVAILABLE);
+			}
+		});
 		buttonSave = new JButton("Save");
 
 		panelTop.add(label);
