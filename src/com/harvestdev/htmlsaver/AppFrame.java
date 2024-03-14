@@ -1,6 +1,8 @@
 package com.harvestdev.htmlsaver;
 
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import java.awt.*;
 
 public final class AppFrame extends JFrame {
@@ -36,6 +38,15 @@ public final class AppFrame extends JFrame {
 
 		editorPane.setContentType("text/html");
 		editorPane.setEditable(false);
+		editorPane.addHyperlinkListener(hyperlinkEvent -> {
+			if (hyperlinkEvent.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+				try {
+					editorPane.setPage(hyperlinkEvent.getURL());
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(AppFrame.this, Consts.ADDRESS_UNAVAILABLE);
+				}
+			}
+		});
 
 		scrollPane = new JScrollPane(editorPane);
 
